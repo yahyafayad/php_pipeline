@@ -1,0 +1,19 @@
+{
+    "name": "yahyafayad/php-task",
+    "description": "A simple PHP project with CI/CD using Jenkins, Snyk, and SonarQube",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Yahyafayad\\PhpTask\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Yahya Fayad",
+            "email": "yahyaifayad@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
