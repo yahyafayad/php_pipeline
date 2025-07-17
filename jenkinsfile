@@ -15,9 +15,15 @@ pipeline {
               
         stage('SCA - Snyk Scan') {
             steps {
-                sh 'snyk test --severity-threshold=high'
-            }
-            }
+                 withCredentials([string(credentialsId: 'SNYK_TOKEN', variable: 'SNYK_TOKEN')]) {
+                  sh '''
+                      snyk auth $SNYK_TOKEN
+                      snyk test --severity-threshold=high
+                      snyk monitor
+                       '''
+                     }
+              }
+                   }
 
 
         stage('SonarQube Analysis') {
