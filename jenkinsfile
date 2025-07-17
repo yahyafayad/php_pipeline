@@ -11,6 +11,14 @@ pipeline {
                 git branch: 'main', credentialsId: 'git_crad', url: 'https://github.com/yahyafayad/php_pipeline.git'
             }
         }
+              
+              
+        stage('SCA - Snyk Scan') {
+            steps {
+                sh 'snyk test --severity-threshold=high'
+            }
+            }
+
 
         stage('SonarQube Analysis') {
             steps {
