@@ -1,6 +1,6 @@
 {
     "name": "yahyafayad/php-task",
-    "description": "A simple PHP project with CI/CD using Jenkins, Snyk, and SonarQube",
+    "description": "yahyafayad/php-task",
     "type": "project",
     "license": "MIT",
     "autoload": {
@@ -10,8 +10,8 @@
     },
     "authors": [
         {
-            "name": "Yahya Fayad",
-            "email": "yahyaifayad@gmail.com"
+            "name": "yahyafayad",
+            "email": "www.yhf300@gmail.com"
         }
     ],
     "minimum-stability": "stable",
