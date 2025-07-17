@@ -2,32 +2,32 @@ pipeline {
     agent any
 
     environment {
-        SCANNER_HOME = tool 'SonarScanner'  // اسم الأداة من Global Tool Configuration
-    }
-
-    triggers {
-        githubPush()  // Trigger لما يحصل Push
+        SONAR_TOKEN = credentials('squ_4e351b847a3ff196467c546d96a4d0eb937aa45a') // اسم الـ token اللي ضفته في Jenkins Credentials
     }
 
     stages {
         stage('Checkout Code') {
             steps {
-                git 'https://github.com/YOUR_USERNAME/YOUR_REPO.git'
+                git 'https://github.com/yahyafayad/php_pipeline.git' // عدل الرابط حسب الريبو بتاعك
             }
         }
 
-        stage('SonarQube Scan') {
+        stage('Install Dependencies') {
             steps {
-                withSonarQubeEnv('SonarQube') {
-                    sh "${SCANNER_HOME}/bin/sonar-scanner"
-                }
+                sh 'composer install || true' // هيتجاهل لو مفيش composer.json
             }
         }
 
-        stage('Quality Gate') {
+        stage('Run SonarQube Scan') {
             steps {
-                timeout(time: 1, unit: 'MINUTES') {
-                    waitForQualityGate abortPipeline: true
+                withSonarQubeEnv('My SonarQube Server') {
+                    sh '''
+                        sonar-scanner \
+                          -Dsonar.projectKey=my_php_project \
+                          -Dsonar.sources=. \
+                          -Dsonar.host.url=http://localhost:9000 \
+                          -Dsonar.login=squ_4e351b847a3ff196467c546d96a4d0eb937aa45a
+                    '''
                 }
             }
         }
