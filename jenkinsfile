@@ -1,0 +1,35 @@
+pipeline {
+    agent any
+
+    environment {
+        SCANNER_HOME = tool 'SonarScanner'  // اسم الأداة من Global Tool Configuration
+    }
+
+    triggers {
+        githubPush()  // Trigger لما يحصل Push
+    }
+
+    stages {
+        stage('Checkout Code') {
+            steps {
+                git 'https://github.com/YOUR_USERNAME/YOUR_REPO.git'
+            }
+        }
+
+        stage('SonarQube Scan') {
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                    sh "${SCANNER_HOME}/bin/sonar-scanner"
+                }
+            }
+        }
+
+        stage('Quality Gate') {
+            steps {
+                timeout(time: 1, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
+    }
+}
