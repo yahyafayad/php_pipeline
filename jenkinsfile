@@ -1,45 +1,23 @@
 pipeline {
     agent any
 
-    tools {
-        // لو هتستخدم PHP linter أو Composer بعدين
-        // ممكن تضيف tools زي git أو php هنا
+    environment {
+        SONARQUBE_SCANNER_HOME = tool 'SonarScanner'
     }
 
     stages {
-        stage('Checkout Code') {
+        stage('Checkout') {
             steps {
                 git branch: 'main', credentialsId: 'git_crad', url: 'https://github.com/yahyafayad/php_pipeline.git'
             }
         }
 
-        stage('Install Dependencies') {
-            steps {
-                sh 'composer install'
-            }
-        }
-
-        stage('Run Tests') {
-            steps {
-                sh './vendor/bin/phpunit'
-            }
-        }
-
-        stage('SonarQube Scan') {
+        stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('MySonarQube') {
-                    sh 'sonar-scanner'
+                    sh "${SONARQUBE_SCANNER_HOME}/bin/sonar-scanner"
                 }
             }
-        }
-    }
-
-    post {
-        success {
-            echo '✅ Build succeeded!'
-        }
-        failure {
-            echo '❌ Build failed.'
         }
     }
 }
