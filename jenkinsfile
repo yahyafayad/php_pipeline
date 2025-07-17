@@ -6,9 +6,9 @@ pipeline {
     }
 
     stages {
-        stage('Checkout Code') {
+        stage('Git checkout') {
             steps {
-                git 'https://github.com/yahyafayad/php_pipeline.git' // عدل الرابط حسب الريبو بتاعك
+                git branch: 'main', credentialsId: 'git_crad', url: 'https://github.com/yahyafayad/php_pipeline.git'
             }
         }
 
@@ -33,3 +33,4 @@ pipeline {
         }
     }
 }
+
